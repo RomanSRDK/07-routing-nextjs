@@ -1,4 +1,5 @@
 "use client";
+
 import Modal from "@/components/Modal/Modal";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import NoteForm from "@/components/NoteForm/NoteForm";
@@ -12,7 +13,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { useDebounce } from "use-debounce";
 import css from "./NotesPage.module.css";
 
-import Loading from "../loading";
+import Loading from "../../../loading";
+import { useParams } from "next/navigation";
 
 export default function NotesClient() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,9 +23,14 @@ export default function NotesClient() {
   const [searchText, setSearchText] = useState("");
   const [debouncedSearch] = useDebounce(searchText, 800);
 
+  const { slug } = useParams<{ slug: string[] }>();
+
+  const tag = slug[0] === "All" ? undefined : slug[0];
+
   const { isPending, data } = useQuery({
-    queryKey: ["notes", { page: currentPage, search: debouncedSearch }],
-    queryFn: () => fetchNotes({ page: currentPage, search: debouncedSearch }),
+    queryKey: ["notes", { page: currentPage, search: debouncedSearch, tag }],
+    queryFn: () =>
+      fetchNotes({ page: currentPage, search: debouncedSearch, tag }),
     placeholderData: keepPreviousData,
     refetchOnMount: false,
   });

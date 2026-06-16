@@ -17,6 +17,15 @@ export default function NoteDetailsClient() {
   });
 
   const router = useRouter();
+
+  const handleClick = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/notes/filter/all");
+    }
+  };
+
   return (
     <>
       {isLoading && <p>Loading, please wait...</p>}
@@ -27,7 +36,7 @@ export default function NoteDetailsClient() {
             <button
               type="button"
               className={css.backButton}
-              onClick={() => router.push("/notes")}
+              onClick={handleClick}
             >
               ← Go back
             </button>

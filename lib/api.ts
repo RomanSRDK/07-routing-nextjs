@@ -15,21 +15,29 @@ type FetchNotesParams = {
   page: number;
   search?: string;
   perPage?: number;
+  tag?: string;
 };
 
 export const fetchNotes = async ({
   page,
   search = "",
   perPage = 12,
+  tag,
 }: FetchNotesParams): Promise<FetchNotesResponse> => {
   const { data } = await axios.get<FetchNotesResponse>("/notes", {
     params: {
       page,
       search: search.trimStart(),
       perPage,
+      tag,
     },
   });
 
+  return data;
+};
+
+export const fetchNoteById = async (id: Note["id"]): Promise<Note> => {
+  const { data } = await axios.get<Note>(`/notes/${id}`);
   return data;
 };
 
@@ -40,10 +48,5 @@ export const createNote = async (newNote: NewNote): Promise<Note> => {
 
 export const deleteNote = async (noteId: string): Promise<Note> => {
   const { data } = await axios.delete<Note>(`/notes/${noteId}`);
-  return data;
-};
-
-export const fetchNoteById = async (id: Note["id"]): Promise<Note> => {
-  const { data } = await axios.get<Note>(`/notes/${id}`);
   return data;
 };
