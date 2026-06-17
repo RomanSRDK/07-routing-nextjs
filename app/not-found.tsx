@@ -20,7 +20,9 @@ export default function NotFoundPage() {
       <p className={css.description}>
         Sorry, the page you&#39;re looking for doesn&#39;t exist.
       </p>
-      <p>Вас буде перенаправлено на головну через кілька секунд…</p>
+      <p>
+        You will be automatically redirected to the homepage in a few seconds…
+      </p>
 
       <Link href="/" className={css.backButton}>
         ← Go back home
